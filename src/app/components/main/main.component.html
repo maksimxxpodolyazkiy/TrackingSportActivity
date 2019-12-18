@@ -1,0 +1,82 @@
+<!-- <div *ngIf="!(activities$ | async).length">
+  <h2 class="header">No activities yet!</h2>
+</div> -->
+<h1 class="activities-header">Activities</h1>
+<!-- <div *ngFor="let item of activities$ | async" class="activity">
+  {{ item.name }} | {{ item.repeats }} | {{ item.date.seconds * 1000 | date }}
+</div> -->
+
+<div class="card-box">
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8" *ngFor="let item of activities$ | async">
+      <nz-card class="card-content" nzTitle="{{ item.name }}">
+        <h4>Repeats:</h4>
+        <p>{{ item.repeats }}</p>
+        <h4>Date:</h4>
+        <p>{{ item.date.seconds * 1000 | date }}</p>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+<h1 class="activity-header">Add new activity</h1>
+
+<form
+  nz-form
+  [formGroup]="activityForm"
+  class="activity-form"
+  (ngSubmit)="onAddActivity()"
+>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your Activity name!">
+      <nz-input-group>
+        <input
+          type="text"
+          nz-input
+          formControlName="name"
+          placeholder="Activity name"
+          autocomplete="name"
+          required
+          #name
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your Repeats!">
+      <nz-input-group>
+        <input
+          type="number"
+          nz-input
+          formControlName="repeats"
+          placeholder="Number of repeats"
+          autocomplete="repeats"
+          required
+          #repeats
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Date</nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24">
+      <nz-date-picker formControlName="date"></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control class="submit-box">
+      <button
+        nz-button
+        class="login-form-button"
+        [nzType]="'primary'"
+        type="submit"
+        [nzSize]="'large'"
+      >
+        Add Activity
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<h1 class="dashboard-header">Dashboard of activities</h1>
+<app-dashboard *ngIf="fbRepeats" [fbRepeats]="fbRepeats"></app-dashboard>

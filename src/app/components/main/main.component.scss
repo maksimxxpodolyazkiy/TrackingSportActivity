@@ -1,0 +1,36 @@
+.login-route {
+  float: right;
+}
+
+.activities-header {
+  text-align: center;
+  margin-top: 44px;
+}
+
+.activity-header {
+  text-align: center;
+  margin-top: 14px;
+  margin-bottom: 30px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.card-box {
+  padding: 30px;
+
+  .card-content {
+    margin-bottom: 0.5rem;
+    background: rgba(192, 192, 192, 10%);
+  }
+}
+
+.activity-form {
+  padding: 30px;
+}
+
+.submit-box {
+  text-align: center;
+}

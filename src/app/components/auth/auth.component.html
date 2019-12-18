@@ -1,0 +1,55 @@
+<form nz-form [formGroup]="loginForm" class="login-form">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          type="text"
+          nz-input
+          formControlName="email"
+          placeholder="Email"
+          autocomplete="email"
+          #email
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your Password!">
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          nz-input
+          formControlName="password"
+          placeholder="Password"
+          autocomplete="password"
+          #password
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control class="submit-box">
+      <button
+        nz-button
+        class="login-form-button"
+        [nzType]="'primary'"
+        type="submit"
+        [nzSize]="'large'"
+        (click)="onSignIn(email.value, password.value)"
+      >
+        Sign In
+      </button>
+      <span>Or</span>
+      <button
+        nz-button
+        class="login-form-button"
+        [nzType]="'primary'"
+        type="submit"
+        [nzSize]="'large'"
+        (click)="onSignUp(email.value, password.value)"
+      >
+        Sign Up
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
