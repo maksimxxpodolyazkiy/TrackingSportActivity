@@ -5,15 +5,15 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyBu-KfbuaCSReCHbiM73DxEmyJPvF33fcE",
-    authDomain: "trackingsportactivities.firebaseapp.com",
-    databaseURL: "https://trackingsportactivities.firebaseio.com",
-    projectId: "trackingsportactivities",
-    storageBucket: "trackingsportactivities.appspot.com",
-    messagingSenderId: "406827298531",
-    appId: "1:406827298531:web:2ad333f3fcc7a3eb0f9fd6",
-    measurementId: "G-XPHD1X9KBL"
-  }
+    apiKey: 'AIzaSyBu-KfbuaCSReCHbiM73DxEmyJPvF33fcE',
+    authDomain: 'trackingsportactivities.firebaseapp.com',
+    databaseURL: 'https://trackingsportactivities.firebaseio.com',
+    projectId: 'trackingsportactivities',
+    storageBucket: 'trackingsportactivities.appspot.com',
+    messagingSenderId: '406827298531',
+    appId: '1:406827298531:web:2ad333f3fcc7a3eb0f9fd6',
+    measurementId: 'G-XPHD1X9KBL',
+  },
 };
 
 /*

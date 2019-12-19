@@ -1,18 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
-import { AuthService } from "src/app/shared/services/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.component.html",
-  styleUrls: ["./auth.component.scss"]
+  selector: 'app-auth',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, public router: Router) {}
 
   public loginForm: FormGroup = new FormGroup({
-    email: new FormControl(""),
-    password: new FormControl("")
+    email: new FormControl(''),
+    password: new FormControl(''),
   });
 
   public onSignIn(email, password) {
@@ -21,10 +22,6 @@ export class AuthComponent implements OnInit {
 
   public onSignUp(email, password) {
     this.auth.onSignUp(email, password);
-  }
-
-  public onSignOut() {
-    this.auth.onSignOut();
   }
 
   ngOnInit() {}

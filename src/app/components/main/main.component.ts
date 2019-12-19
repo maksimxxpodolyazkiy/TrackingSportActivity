@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { FirestoreDatabaseService } from "src/app/shared/services/firestore-database.service";
-import { FormGroup, FormControl } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FirestoreDatabaseService } from 'src/app/shared/services/firestore-database.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: "app-main",
-  templateUrl: "./main.component.html",
-  styleUrls: ["./main.component.scss"]
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
   constructor(private fds: FirestoreDatabaseService) {}
@@ -14,9 +14,9 @@ export class MainComponent implements OnInit {
   public fbRepeats;
 
   public activityForm: FormGroup = new FormGroup({
-    name: new FormControl(""),
-    repeats: new FormControl(""),
-    date: new FormControl("")
+    name: new FormControl(''),
+    repeats: new FormControl(''),
+    date: new FormControl(''),
   });
 
   public ngOnInit(): void {
@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
         const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
         return {
           dayOfTheWeek,
-          repeats
+          repeats,
         };
       });
 
@@ -63,6 +63,6 @@ export class MainComponent implements OnInit {
 
   public onAddActivity(): void {
     this.fds.addSingleActivity(this.activityForm.value);
-    this.activityForm.patchValue({ name: "", repeats: "" });
+    this.activityForm.patchValue({ name: '', repeats: '' });
   }
 }

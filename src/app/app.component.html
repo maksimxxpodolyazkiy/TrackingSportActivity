@@ -4,8 +4,8 @@
       <div nz-col nzSpan="12">
         <a routerLink="/main">Tracking Sport Activities</a>
       </div>
-      <div nz-col nzSpan="12" class="login-route">
-        <a routerLink="/auth">Sign In</a>
+      <div *ngIf="isLoggedIn" nz-col nzSpan="12" class="login-route">
+        <a (click)="onSignOut()">Sign Out</a>
       </div>
     </div>
   </nz-header>

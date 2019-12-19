@@ -1,34 +1,28 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  AngularFirestoreDocument
-} from "@angular/fire/firestore";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { AuthService } from "./auth.service";
-import { TouchSequence } from "selenium-webdriver";
+  AngularFirestoreDocument,
+} from '@angular/fire/firestore';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class FirestoreDatabaseService {
   private activitiesCollection: AngularFirestoreCollection<any>;
   public activities$;
 
-  constructor(
-    private db: AngularFirestore,
-    private afAuth: AuthService,
-    private fds: FirestoreDatabaseService
-  ) {}
+  constructor(private db: AngularFirestore, private afAuth: AuthService) {}
 
   public getActivities() {
     const uid = this.afAuth.getUserId();
 
     if (uid !== null) {
       this.activitiesCollection = this.db
-        .collection("users")
+        .collection('users')
         .doc(uid)
-        .collection("activities");
+        .collection('activities');
 
       this.activities$ = this.activitiesCollection.valueChanges();
       return this.activities$;
@@ -39,9 +33,9 @@ export class FirestoreDatabaseService {
   public addSingleActivity({ name, repeats, date }) {
     const uid = this.afAuth.getUserId();
     this.db
-      .collection("users")
+      .collection('users')
       .doc(uid)
-      .collection("activities")
+      .collection('activities')
       .add({ name, repeats, date });
     this.activities$ = this.activitiesCollection.valueChanges();
   }
