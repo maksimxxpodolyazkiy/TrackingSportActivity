@@ -13,9 +13,10 @@ import { MainComponent } from "./components/main/main.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth, AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { environment } from "src/environments/environment";
+import { AngularFireAuthGuard } from "@angular/fire/auth-guard";
 
 registerLocaleData(en);
 
@@ -36,9 +37,14 @@ registerLocaleData(en);
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   bootstrap: [AppComponent],
-  providers: [AngularFireAuth, { provide: NZ_I18N, useValue: en_US }]
+  providers: [
+    AngularFireAuthGuard,
+    AngularFireAuth,
+    { provide: NZ_I18N, useValue: en_US }
+  ]
 })
 export class AppModule {}

@@ -6,14 +6,17 @@ import Chart from "chart.js";
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   public canvas: any;
   public ctx;
   public data: any;
   public myChartData;
-  @Input() public fbRepeats: string[];
+  // @Input() public fbRepeats: string[];
+  @Input() set fbRepeats(value) {
+    this.configureChart(value);
+  }
 
-  ngOnInit() {
+  public configureChart(value) {
     const gradientChartOptionsConfigurationWithTooltipRed: any = {
       maintainAspectRatio: false,
       legend: {
@@ -68,7 +71,7 @@ export class DashboardComponent implements OnInit {
 
     const chart_labels = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    this.data = this.fbRepeats;
+    this.data = value;
     this.canvas = document.getElementById("chartBig1");
     this.ctx = this.canvas.getContext("2d");
 

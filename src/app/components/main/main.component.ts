@@ -1,14 +1,13 @@
-import { Component, OnInit, SimpleChanges, OnChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FirestoreDatabaseService } from "src/app/shared/services/firestore-database.service";
 import { FormGroup, FormControl } from "@angular/forms";
-import { isTemplateRef } from "ng-zorro-antd";
 
 @Component({
   selector: "app-main",
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.scss"]
 })
-export class MainComponent implements OnInit, OnChanges {
+export class MainComponent implements OnInit {
   constructor(private fds: FirestoreDatabaseService) {}
 
   public activities$;
@@ -19,10 +18,6 @@ export class MainComponent implements OnInit, OnChanges {
     repeats: new FormControl(""),
     date: new FormControl("")
   });
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
 
   public ngOnInit(): void {
     this.activities$ = this.fds.getActivities();

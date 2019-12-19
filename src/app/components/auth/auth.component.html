@@ -37,6 +37,8 @@
         [nzSize]="'large'"
         (click)="onSignIn(email.value, password.value)"
       >
+        <i nz-icon nzType="login" nzTheme="outline"></i>
+
         Sign In
       </button>
       <span>Or</span>
@@ -51,5 +53,18 @@
         Sign Up
       </button>
     </nz-form-control>
+    <div class="submit-box">
+      <button
+        nz-button
+        class="login-form-button"
+        [nzType]="'primary'"
+        type="submit"
+        [nzSize]="'large'"
+        (click)="onSignOut()"
+      >
+        <i nz-icon nzType="logout" nzTheme="outline"></i>
+        Sign Out
+      </button>
+    </div>
   </nz-form-item>
 </form>

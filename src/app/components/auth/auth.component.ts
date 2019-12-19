@@ -23,5 +23,9 @@ export class AuthComponent implements OnInit {
     this.auth.onSignUp(email, password);
   }
 
+  public onSignOut() {
+    this.auth.onSignOut();
+  }
+
   ngOnInit() {}
 }
