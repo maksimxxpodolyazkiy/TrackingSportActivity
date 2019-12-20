@@ -7,6 +7,7 @@ import {
   redirectUnauthorizedTo,
   redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
+import { SignUpComponent } from './components/auth/components/sign-up/sign-up.component';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(['auth']);
 const redirectLoggedInToMain = () => redirectLoggedInTo(['main']);
@@ -21,6 +22,10 @@ const routes: Route[] = [
   {
     path: 'auth',
     component: AuthComponent,
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
   },
   { path: '**', redirectTo: 'auth' },
 ];

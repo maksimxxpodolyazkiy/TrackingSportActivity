@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -8,21 +8,19 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
   constructor(public auth: AuthService, public router: Router) {}
 
   public loginForm: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', Validators.email),
+    password: new FormControl('', Validators.required),
   });
 
   public onSignIn(email, password) {
     this.auth.onSignIn(email, password);
   }
 
-  public onSignUp(email, password) {
-    this.auth.onSignUp(email, password);
+  public onRoute() {
+    this.router.navigate(['/sign-up']);
   }
-
-  ngOnInit() {}
 }

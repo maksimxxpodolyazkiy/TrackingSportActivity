@@ -17,6 +17,7 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { SignUpComponent } from './components/auth/components/sign-up/sign-up.component';
 
 registerLocaleData(en);
 
@@ -26,6 +27,7 @@ registerLocaleData(en);
     DashboardComponent,
     AuthComponent,
     MainComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,

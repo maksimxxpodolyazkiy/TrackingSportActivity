@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firestore-database.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -14,9 +14,9 @@ export class MainComponent implements OnInit {
   public fbRepeats;
 
   public activityForm: FormGroup = new FormGroup({
-    name: new FormControl(''),
-    repeats: new FormControl(''),
-    date: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    repeats: new FormControl(null, Validators.required),
+    date: new FormControl('', Validators.required),
   });
 
   public ngOnInit(): void {
@@ -63,6 +63,6 @@ export class MainComponent implements OnInit {
 
   public onAddActivity(): void {
     this.fds.addSingleActivity(this.activityForm.value);
-    this.activityForm.patchValue({ name: '', repeats: '' });
+    this.activityForm.reset();
   }
 }

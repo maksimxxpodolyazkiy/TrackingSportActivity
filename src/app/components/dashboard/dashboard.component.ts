@@ -68,7 +68,7 @@ export class DashboardComponent {
       },
     };
 
-    const chart_labels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    const chartLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
     this.data = value;
     this.canvas = document.getElementById('chartBig1');
@@ -83,7 +83,7 @@ export class DashboardComponent {
     const config = {
       type: 'line',
       data: {
-        labels: chart_labels,
+        labels: chartLabels,
         datasets: [
           {
             label: 'Repeats',

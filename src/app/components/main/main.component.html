@@ -25,11 +25,11 @@
     <nz-form-control nzErrorTip="Please input your Activity name!">
       <nz-input-group>
         <input
+          class="activity-input"
           type="text"
           nz-input
           formControlName="name"
           placeholder="Activity name"
-          autocomplete="name"
           #name
         />
       </nz-input-group>
@@ -39,11 +39,11 @@
     <nz-form-control nzErrorTip="Please input your Repeats!">
       <nz-input-group>
         <input
+          class="activity-input"
           type="number"
           nz-input
           formControlName="repeats"
           placeholder="Number of repeats"
-          autocomplete="repeats"
           #repeats
         />
       </nz-input-group>
@@ -63,6 +63,7 @@
         [nzType]="'primary'"
         type="submit"
         [nzSize]="'large'"
+        [disabled]="!activityForm.valid"
       >
         Add Activity
       </button>

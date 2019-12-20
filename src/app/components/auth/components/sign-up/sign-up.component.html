@@ -1,8 +1,8 @@
 <form
   nz-form
-  [formGroup]="loginForm"
-  class="login-form"
-  (ngSubmit)="onSignIn(email.value, password.value)"
+  [formGroup]="signUpForm"
+  class="sign-up-form"
+  (ngSubmit)="onSignUp(email.value, password.value)"
 >
   <nz-form-item>
     <nz-form-control nzErrorTip="Please input your email!">
@@ -34,22 +34,11 @@
     <nz-form-control class="submit-box">
       <button
         nz-button
-        class="login-form-button"
-        [nzType]="'primary'"
+        class="sign-up-form-button"
         type="submit"
-        [nzSize]="'large'"
-        [disabled]="!loginForm.valid"
-      >
-        <i nz-icon nzType="login" nzTheme="outline"></i>
-        Sign In
-      </button>
-      <span>Or</span>
-      <button
-        nz-button
-        class="login-form-button"
         [nzType]="'primary'"
         [nzSize]="'large'"
-        (click)="onRoute()"
+        [disabled]="!signUpForm.valid"
       >
         Sign Up
       </button>

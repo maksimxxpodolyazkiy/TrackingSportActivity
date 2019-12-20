@@ -36,6 +36,7 @@ export class AuthService {
   public onSignUp(email, password) {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
+      .then(() => this.router.navigate(['/main']))
       .catch(error => {
         window.alert(error.message);
       });
