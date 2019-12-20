@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
-  public onSignIn(email, password) {
+  public onSignIn(email, password): void {
     this.afAuth.auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -20,7 +21,7 @@ export class AuthService {
   }
 
   public getUserId() {
-    return this.afAuth.auth.currentUser.uid;
+    return this.afAuth.authState.pipe(map(user => user.uid));
   }
 
   public isLoggedIn() {

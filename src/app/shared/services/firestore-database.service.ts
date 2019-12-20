@@ -5,6 +5,8 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,28 +17,33 @@ export class FirestoreDatabaseService {
 
   constructor(private db: AngularFirestore, private afAuth: AuthService) {}
 
-  public getActivities() {
-    const uid = this.afAuth.getUserId();
+  public getActivities(): Observable<any> {
+    return this.afAuth.getUserId().pipe(
+      map(uid => {
+        this.activitiesCollection = this.db
+          .collection('users')
+          .doc(uid)
+          .collection('activities');
 
-    if (uid !== null) {
-      this.activitiesCollection = this.db
-        .collection('users')
-        .doc(uid)
-        .collection('activities');
+        this.activities$ = this.activitiesCollection.valueChanges();
 
-      this.activities$ = this.activitiesCollection.valueChanges();
-      return this.activities$;
-    }
-    return;
+        return this.activities$;
+      }),
+    );
   }
 
   public addSingleActivity({ name, repeats, date }) {
-    const uid = this.afAuth.getUserId();
+    let uid;
+    this.afAuth.getUserId().subscribe(id => (uid = id));
     this.db
       .collection('users')
       .doc(uid)
       .collection('activities')
       .add({ name, repeats, date });
+    this.db
+      .collection('users')
+      .doc(uid)
+      .set({ isAdmin: false });
     this.activities$ = this.activitiesCollection.valueChanges();
   }
 }

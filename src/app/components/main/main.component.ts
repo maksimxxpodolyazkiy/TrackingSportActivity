@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firestore-database.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +9,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  constructor(private fds: FirestoreDatabaseService) {}
+  constructor(
+    private fds: FirestoreDatabaseService,
+    private auth: AuthService,
+  ) {}
 
-  public activities$;
+  public activities;
   public fbRepeats;
 
   public activityForm: FormGroup = new FormGroup({
@@ -20,45 +24,89 @@ export class MainComponent implements OnInit {
   });
 
   public ngOnInit(): void {
-    this.activities$ = this.fds.getActivities();
-    this.fds.getActivities().subscribe(val => {
-      const activities = val.map(({ date, repeats }) => {
-        const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
-        return {
-          dayOfTheWeek,
-          repeats,
-        };
-      });
+    this.auth.getUserId().subscribe(id => console.log(id));
+    this.fds
+      .getActivities()
+      .subscribe(obs => obs.subscribe(item => (this.activities = item)));
+    // this.activities$ = this.fds.getActivities();
+    this.fds.getActivities().subscribe(obs =>
+      obs.subscribe(val => {
+        const activities = val.map(({ date, repeats }) => {
+          const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
+          return {
+            dayOfTheWeek,
+            repeats,
+          };
+        });
 
-      const counts = activities.reduce((prev, curr) => {
-        const count = prev.get(curr.dayOfTheWeek) || 0;
-        prev.set(curr.dayOfTheWeek, +curr.repeats + count);
-        return prev;
-      }, new Map());
+        const counts = activities.reduce((prev, curr) => {
+          const count = prev.get(curr.dayOfTheWeek) || 0;
+          prev.set(curr.dayOfTheWeek, +curr.repeats + count);
+          return prev;
+        }, new Map());
 
-      const reducedActivities = [...counts].map(([dayOfTheWeek, repeats]) => {
-        return { dayOfTheWeek, repeats };
-      });
+        const reducedActivities = [...counts].map(([dayOfTheWeek, repeats]) => {
+          return { dayOfTheWeek, repeats };
+        });
 
-      reducedActivities.sort((a, b) => {
-        const dayA = a.dayOfTheWeek;
-        const dayB = b.dayOfTheWeek;
-        let comparison = 0;
-        if (dayA > dayB) {
-          comparison = 1;
-        } else if (dayA < dayB) {
-          comparison = -1;
-        }
-        return comparison;
-      });
+        reducedActivities.sort((a, b) => {
+          const dayA = a.dayOfTheWeek;
+          const dayB = b.dayOfTheWeek;
+          let comparison = 0;
+          if (dayA > dayB) {
+            comparison = 1;
+          } else if (dayA < dayB) {
+            comparison = -1;
+          }
+          return comparison;
+        });
 
-      const arrDaysOfTheWeek = [0, 0, 0, 0, 0, 0, 0];
-      reducedActivities.forEach(item => {
-        arrDaysOfTheWeek[item.dayOfTheWeek] = item.repeats;
-      });
+        const arrDaysOfTheWeek = [0, 0, 0, 0, 0, 0, 0];
+        reducedActivities.forEach(item => {
+          arrDaysOfTheWeek[item.dayOfTheWeek] = item.repeats;
+        });
 
-      this.fbRepeats = arrDaysOfTheWeek;
-    });
+        this.fbRepeats = arrDaysOfTheWeek;
+      }),
+    );
+    // (val => {
+    //   const activities = val.map(({ date, repeats }) => {
+    //     const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
+    //     return {
+    //       dayOfTheWeek,
+    //       repeats,
+    //     };
+    //   });
+
+    //   const counts = activities.reduce((prev, curr) => {
+    //     const count = prev.get(curr.dayOfTheWeek) || 0;
+    //     prev.set(curr.dayOfTheWeek, +curr.repeats + count);
+    //     return prev;
+    //   }, new Map());
+
+    //   const reducedActivities = [...counts].map(([dayOfTheWeek, repeats]) => {
+    //     return { dayOfTheWeek, repeats };
+    //   });
+
+    //   reducedActivities.sort((a, b) => {
+    //     const dayA = a.dayOfTheWeek;
+    //     const dayB = b.dayOfTheWeek;
+    //     let comparison = 0;
+    //     if (dayA > dayB) {
+    //       comparison = 1;
+    //     } else if (dayA < dayB) {
+    //       comparison = -1;
+    //     }
+    //     return comparison;
+    //   });
+
+    //   const arrDaysOfTheWeek = [0, 0, 0, 0, 0, 0, 0];
+    //   reducedActivities.forEach(item => {
+    //     arrDaysOfTheWeek[item.dayOfTheWeek] = item.repeats;
+    //   });
+
+    //   this.fbRepeats = arrDaysOfTheWeek;
+    // });
   }
 
   public onAddActivity(): void {

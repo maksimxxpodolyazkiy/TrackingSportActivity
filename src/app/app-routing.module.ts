@@ -5,29 +5,37 @@ import { MainComponent } from './components/main/main.component';
 import {
   AngularFireAuthGuard,
   redirectUnauthorizedTo,
-  redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
 import { SignUpComponent } from './components/auth/components/sign-up/sign-up.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(['auth']);
-const redirectLoggedInToMain = () => redirectLoggedInTo(['main']);
 
 const routes: Route[] = [
-  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: 'main',
+    pathMatch: 'full',
+  },
   {
     path: 'main',
     component: MainComponent,
-    canActivate: [AngularFireAuthGuard],
+    canActivate: [AngularFireAuthGuard, AdminGuard],
+    data: { authGuardPipe: redirectUnauthorizedToAuth },
   },
   {
     path: 'auth',
     component: AuthComponent,
   },
+
   {
     path: 'sign-up',
     component: SignUpComponent,
   },
-  { path: '**', redirectTo: 'auth' },
+  { path: 'admin', component: AdminComponent },
+
+  { path: '**', redirectTo: 'main' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
