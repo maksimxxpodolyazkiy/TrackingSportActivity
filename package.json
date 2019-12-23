@@ -24,6 +24,7 @@
     "chart.js": "^2.9.3",
     "firebase": "^7.6.0",
     "ng-zorro-antd": "^8.5.2",
+    "ngx-auto-unsubscribe": "^3.0.1",
     "prettier": "^1.19.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",

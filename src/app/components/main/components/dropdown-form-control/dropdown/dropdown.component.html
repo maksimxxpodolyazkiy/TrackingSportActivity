@@ -1,0 +1,12 @@
+<div class="dropdown">
+  <a nz-button (click)="openDropdown()">{{ selectedValue }}</a>
+  <ul nz-menu *ngIf="isOpened">
+    <li
+      nz-menu-item
+      *ngFor="let item of categories$ | async"
+      (click)="selectCategory($event)"
+    >
+      {{ item.name }}
+    </li>
+  </ul>
+</div>

@@ -1,1 +1,77 @@
-<p>admin works!</p>
+<h1 class="categories-header">Sport Categories</h1>
+
+<nz-table #borderedTable nzBordered [nzData]="categories$ | async">
+  <thead>
+    <tr>
+      <th>Sport categories</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of borderedTable.data">
+      <td>{{ data.name }}</td>
+      <td><img src="{{ data.image }}" class="image" /></td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<h1 class="add-category-header">Add New Category</h1>
+
+<form
+  nz-form
+  [formGroup]="categoryForm"
+  class="category-form"
+  (ngSubmit)="onAddCategory()"
+>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input category name">
+      <nz-input-group nzPrefixIcon="plus-square">
+        <input
+          type="text"
+          nz-input
+          formControlName="name"
+          placeholder="Category name"
+          #name
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <div class="add-collection">
+        <button nz-button type="button" (click)="showModal()">
+          Add image
+        </button>
+        <nz-modal
+          [(nzVisible)]="isVisible"
+          nzTitle="Add Image"
+          [nzFooter]="modalFooter"
+          (nzOnCancel)="handleCancel()"
+        >
+          <app-image-form-control formControlName="image">
+          </app-image-form-control>
+
+          <ng-template #modalFooter class="close-box">
+            <button nz-button nz-type="default" (click)="handleCancel()">
+              Close
+            </button>
+          </ng-template>
+        </nz-modal>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control class="submit-box">
+      <button
+        nz-button
+        class="category-form-button"
+        [nzType]="'primary'"
+        type="submit"
+        [nzSize]="'large'"
+        [disabled]="!categoryForm.valid"
+      >
+        Add Category
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

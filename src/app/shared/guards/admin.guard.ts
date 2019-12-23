@@ -24,8 +24,6 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> | boolean {
-    console.log('guard');
-
     return this.afAuth.getUserId().pipe(
       switchMap(id => {
         return this.db
@@ -34,8 +32,6 @@ export class AdminGuard implements CanActivate {
           .get()
           .pipe(
             map(doc => {
-              console.log(doc);
-
               if (doc.data().isAdmin) {
                 this.router.navigate(['admin']);
               } else {
@@ -45,27 +41,5 @@ export class AdminGuard implements CanActivate {
           );
       }),
     );
-    //   this.db
-    //     .collection('users')
-    //     .doc(uid)
-    //     .get()
-    //     .pipe(doc => {
-    //       if (doc.data().isAdmin) {
-    //         this.router.navigate(['admin']);
-    //       } else {
-    //       }
-    //     });
-    // });
-
-    // return this.db
-    //   .collection('users')
-    //   .doc(uid)
-    //   .get()
-    //   .pipe(doc => {
-    //     if (doc.data().isAdmin) {
-    //       this.router.navigate(['admin']);
-    //     } else {
-    //     }
-    //   });
   }
 }

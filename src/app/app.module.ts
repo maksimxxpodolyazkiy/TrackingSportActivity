@@ -19,6 +19,10 @@ import { environment } from 'src/environments/environment';
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 import { SignUpComponent } from './components/auth/components/sign-up/sign-up.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { ImageComponent } from './components/admin/components/image-form-control/image/image.component';
+import { ImageFormControlComponent } from './components/admin/components/image-form-control/image-form-control.component';
+import { DropdownFormControlComponent } from './components/main/components/dropdown-form-control/dropdown-form-control.component';
+import { DropdownComponent } from './components/main/components/dropdown-form-control/dropdown/dropdown.component';
 
 registerLocaleData(en);
 
@@ -30,6 +34,10 @@ registerLocaleData(en);
     MainComponent,
     SignUpComponent,
     AdminComponent,
+    ImageComponent,
+    ImageFormControlComponent,
+    DropdownFormControlComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,

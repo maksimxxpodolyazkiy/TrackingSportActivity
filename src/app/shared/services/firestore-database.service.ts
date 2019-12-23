@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
@@ -32,18 +31,29 @@ export class FirestoreDatabaseService {
     );
   }
 
-  public addSingleActivity({ name, repeats, date }) {
+  public getCategories(): Observable<any> {
+    return this.db.collection('categories').valueChanges();
+  }
+
+  public addSingleActivity({ name, repeats, date, dropdown }) {
     let uid;
     this.afAuth.getUserId().subscribe(id => (uid = id));
     this.db
       .collection('users')
       .doc(uid)
       .collection('activities')
-      .add({ name, repeats, date });
+      .add({ name, repeats, date, dropdown });
     this.db
       .collection('users')
       .doc(uid)
       .set({ isAdmin: false });
     this.activities$ = this.activitiesCollection.valueChanges();
+  }
+
+  public addSingleCategory({ name, image }): void {
+    this.db.collection('categories').add({
+      name,
+      image,
+    });
   }
 }
