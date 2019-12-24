@@ -19,8 +19,6 @@ export class ImageFormControlComponent implements ControlValueAccessor {
   public writeValue(value: string): void {}
 
   public onImageChange(value: string): void {
-    console.log(value);
-
     if (value) {
       this.onChange(value);
     } else {

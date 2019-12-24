@@ -13,7 +13,7 @@ export class ImageService {
     return this.service.getPhotosFromUnsplash(searchText).pipe(
       map(data =>
         data.results.map(item => {
-          return item.urls.thumb;
+          return item.urls.small;
         }),
       ),
     );

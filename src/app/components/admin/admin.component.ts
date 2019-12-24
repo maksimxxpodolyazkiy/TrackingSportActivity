@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firestore-database.service';
-import { map } from 'rxjs/operators';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -21,14 +19,6 @@ export class AdminComponent implements OnInit {
 
   public showModal(): void {
     this.isVisible = true;
-  }
-
-  public onEnter(): void {
-    this.handleCancel();
-  }
-
-  public handleOk(): void {
-    this.isVisible = false;
   }
 
   public handleCancel(): void {

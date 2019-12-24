@@ -1,12 +1,15 @@
 <div class="dropdown">
-  <a nz-button (click)="openDropdown()">{{ selectedValue }}</a>
+  <a *ngIf="!selectedItem" nz-button (click)="openDropdown()"
+    >Select Category</a
+  >
+  <a *ngIf="selectedItem" nz-button (click)="openDropdown()">{{
+    selectedItem
+  }}</a>
   <ul nz-menu *ngIf="isOpened">
-    <li
-      nz-menu-item
-      *ngFor="let item of categories$ | async"
-      (click)="selectCategory($event)"
-    >
+    <li nz-menu-item *ngFor="let item of values" (click)="selectItem(item)">
       {{ item.name }}
     </li>
   </ul>
 </div>
+
+<!-- Array<{name: string; value: any}> -->

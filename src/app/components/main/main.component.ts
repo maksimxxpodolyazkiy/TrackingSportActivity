@@ -1,8 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firestore-database.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { map, subscribeOn } from 'rxjs/operators';
 
 @AutoUnsubscribe()
 @Component({
@@ -11,28 +17,38 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  constructor(private fds: FirestoreDatabaseService) {
-    this.activityForm.valueChanges.subscribe(item => console.log(item));
-  }
+  constructor(private fds: FirestoreDatabaseService) {}
 
   public activities;
   public fbRepeats;
-  public activitiesSub: Subscription;
+  public categories: Array<{ name: string; value: any }>;
   public fbRepeatsSub: Subscription;
-
-  public activityForm: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
+  public categoriesSub: Subscription;
+  public activityForm = new FormGroup({
+    name: new FormControl(null, Validators.required),
     repeats: new FormControl(null, Validators.required),
-    date: new FormControl('', Validators.required),
-    dropdown: new FormControl(''),
+    date: new FormControl(null, Validators.required),
+    dropdown: new FormControl(null, Validators.required),
+
+    // dropdown: [this.fb.array(
+    //   this.categories.map(elem => this.createMemberGroup(elem)),
+    // ),]
   });
 
   public ngOnInit(): void {
-    this.activitiesSub = this.fds
-      .getActivities()
-      .subscribe(obs => obs.subscribe(item => (this.activities = item)));
+    this.categoriesSub = this.fds.getCategories().subscribe(items => {
+      this.categories = items.map(item => ({ name: item.name, value: item }));
+    });
+
+    this.activityForm.valueChanges.subscribe(item => console.log(item));
+
+    // this.categoriesSub = this.fds
+    //   .getCategories()
+    //   .subscribe(item => (this.categories = item));
+
     this.fbRepeatsSub = this.fds.getActivities().subscribe(obs =>
       obs.subscribe(val => {
+        this.activities = val;
         const activities = val.map(({ date, repeats }) => {
           const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
           return {
@@ -73,9 +89,22 @@ export class MainComponent implements OnInit, OnDestroy {
     );
   }
 
+  // public createMemberGroup(member): FormGroup {
+  //   return this.fb.group({
+  //     ...member,
+  //     ...{
+  //       name: [member.name, Validators.required],
+  //     },
+  //   });
+  // }
+
   public onAddActivity(): void {
-    this.fds.addSingleActivity(this.activityForm.value);
+    this.fds.addSingleActivity(this.activityForm.value).subscribe();
     this.activityForm.reset();
+  }
+
+  public onDeleteActivity(item): void {
+    this.activities = this.activities.filter(i => i !== item);
   }
 
   public ngOnDestroy() {}

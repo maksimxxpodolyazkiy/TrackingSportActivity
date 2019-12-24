@@ -29,8 +29,6 @@ export class AuthService {
   }
 
   public getUser() {
-    console.log(this.afAuth.auth.currentUser);
-
     return this.afAuth.auth.currentUser;
   }
 

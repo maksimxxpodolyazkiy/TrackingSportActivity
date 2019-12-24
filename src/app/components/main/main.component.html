@@ -4,10 +4,16 @@
   <div nz-row [nzGutter]="8">
     <div nz-col [nzSpan]="8" *ngFor="let item of activities">
       <nz-card class="card-content" nzTitle="{{ item.name }}">
+        <img class="category-image" src="{{ item.dropdown.image }}" />
         <h4>Repeats:</h4>
         <p>{{ item.repeats }}</p>
         <h4>Date:</h4>
         <p>{{ item.date.seconds * 1000 | date }}</p>
+        <h4>Category:</h4>
+        <p>{{ item.dropdown.name }}</p>
+        <button nz-button nzType="default" (click)="onDeleteActivity(item)">
+          Delete
+        </button>
       </nz-card>
     </div>
   </div>
@@ -59,6 +65,7 @@
     <nz-form-control>
       <app-dropdown-form-control
         formControlName="dropdown"
+        [values]="categories"
       ></app-dropdown-form-control>
     </nz-form-control>
   </nz-form-item>
