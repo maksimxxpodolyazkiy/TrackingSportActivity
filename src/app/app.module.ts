@@ -23,6 +23,7 @@ import { ImageComponent } from './components/admin/components/image-form-control
 import { ImageFormControlComponent } from './components/admin/components/image-form-control/image-form-control.component';
 import { DropdownFormControlComponent } from './components/main/components/dropdown-form-control/dropdown-form-control.component';
 import { DropdownComponent } from './components/main/components/dropdown-form-control/dropdown/dropdown.component';
+import { ActivityCardComponent } from './components/main/components/activity-card/activity-card.component';
 
 registerLocaleData(en);
 
@@ -38,6 +39,7 @@ registerLocaleData(en);
     ImageFormControlComponent,
     DropdownFormControlComponent,
     DropdownComponent,
+    ActivityCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,13 @@
+<nz-card class="card-content" nzTitle="{{ item.name }}">
+  <img
+    *ngIf="selectedCategory"
+    class="category-image"
+    src="{{ selectedCategory.image }}"
+  />
+  <h4>Repeats:</h4>
+  <p>{{ item.repeats }}</p>
+  <h4>Date:</h4>
+  <p>{{ item.date.seconds * 1000 | date }}</p>
+  <h4 *ngIf="selectedCategory">Category:</h4>
+  <p *ngIf="selectedCategory">{{ selectedCategory.name }}</p>
+</nz-card>
