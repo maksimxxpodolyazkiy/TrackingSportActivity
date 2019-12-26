@@ -7,7 +7,7 @@
 # Only exists if Bazel was run
 /bazel-out
 
-/src/qwerty
+src/qwerty
 # dependencies
 /node_modules
 
