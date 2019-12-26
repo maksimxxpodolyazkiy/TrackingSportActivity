@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const alertWrapper = fn => {
+        return (...args) => {
+          const result = fn.apply(this, args);
+          alert(result);
+          return result;
+        };
+      };
+
+      const func = () => {
+        let a = 0;
+        return () => {
+          console.log(a);
+          return a++;
+        };
+      };
+
+      const counter = func();
+      counter();
+      counter();
+      counter();
+      const counter2 = func();
+      counter2();
+      counter2();
+      const alertCounter = alertWrapper(counter);
+      alertCounter();
+      alertCounter();
+      alertCounter();
+    </script>
+  </body>
+</html>
