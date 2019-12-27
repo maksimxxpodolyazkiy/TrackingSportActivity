@@ -4,8 +4,17 @@
 }
 
 .category-image {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 980px) {
+  .category-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
 }
