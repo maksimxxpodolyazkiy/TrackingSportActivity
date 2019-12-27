@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { UnsplashService } from './unsplash.service';
 
 @Injectable({
@@ -9,13 +9,11 @@ import { UnsplashService } from './unsplash.service';
 export class ImageService {
   constructor(private service: UnsplashService) {}
 
-  public searchImages(searchText): Observable<string[]> {
+  public searchImages(searchText): Observable<void> {
     return this.service.getPhotosFromUnsplash(searchText).pipe(
-      map(data =>
-        data.results.map(item => {
-          return item.urls.small;
-        }),
-      ),
+      map(data => {
+        data.results.map(item => item.urls.small);
+      }),
     );
   }
 }

@@ -34,49 +34,45 @@ export class MainComponent implements OnInit, OnDestroy {
       }));
     });
 
-    this.activityForm.valueChanges.subscribe(item => console.log(item));
+    this.fbRepeatsSub = this.fds.getActivities().subscribe(val => {
+      this.activities = val;
+      const activities = val.map(({ date, repeats }) => {
+        const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
+        return {
+          dayOfTheWeek,
+          repeats,
+        };
+      });
 
-    this.fbRepeatsSub = this.fds.getActivities().subscribe(obs =>
-      obs.subscribe(val => {
-        this.activities = val;
-        const activities = val.map(({ date, repeats }) => {
-          const dayOfTheWeek = new Date(date.seconds * 1000).getDay();
-          return {
-            dayOfTheWeek,
-            repeats,
-          };
-        });
+      const counts = activities.reduce((prev, curr) => {
+        const count = prev.get(curr.dayOfTheWeek) || 0;
+        prev.set(curr.dayOfTheWeek, +curr.repeats + count);
+        return prev;
+      }, new Map());
 
-        const counts = activities.reduce((prev, curr) => {
-          const count = prev.get(curr.dayOfTheWeek) || 0;
-          prev.set(curr.dayOfTheWeek, +curr.repeats + count);
-          return prev;
-        }, new Map());
+      const reducedActivities = [...counts].map(([dayOfTheWeek, repeats]) => {
+        return { dayOfTheWeek, repeats };
+      });
 
-        const reducedActivities = [...counts].map(([dayOfTheWeek, repeats]) => {
-          return { dayOfTheWeek, repeats };
-        });
+      reducedActivities.sort((a, b) => {
+        const dayA = a.dayOfTheWeek;
+        const dayB = b.dayOfTheWeek;
+        let comparison = 0;
+        if (dayA > dayB) {
+          comparison = 1;
+        } else if (dayA < dayB) {
+          comparison = -1;
+        }
+        return comparison;
+      });
 
-        reducedActivities.sort((a, b) => {
-          const dayA = a.dayOfTheWeek;
-          const dayB = b.dayOfTheWeek;
-          let comparison = 0;
-          if (dayA > dayB) {
-            comparison = 1;
-          } else if (dayA < dayB) {
-            comparison = -1;
-          }
-          return comparison;
-        });
+      const arrDaysOfTheWeek = [0, 0, 0, 0, 0, 0, 0];
+      reducedActivities.forEach(item => {
+        arrDaysOfTheWeek[item.dayOfTheWeek] = item.repeats;
+      });
 
-        const arrDaysOfTheWeek = [0, 0, 0, 0, 0, 0, 0];
-        reducedActivities.forEach(item => {
-          arrDaysOfTheWeek[item.dayOfTheWeek] = item.repeats;
-        });
-
-        this.fbRepeats = arrDaysOfTheWeek;
-      }),
-    );
+      this.fbRepeats = arrDaysOfTheWeek;
+    });
   }
 
   public onAddActivity(): void {

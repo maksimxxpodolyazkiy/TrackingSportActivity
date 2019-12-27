@@ -9,5 +9,5 @@ export interface UnsplashApiResponse {
     };
   }>;
   total: number;
-  pages: number;
+  total_pages: number;
 }

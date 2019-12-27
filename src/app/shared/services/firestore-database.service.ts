@@ -2,25 +2,24 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  QuerySnapshot,
-  DocumentData,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Category } from '../interfaces/category.interface';
+import { Activity } from '../interfaces/activity.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreDatabaseService {
-  private activitiesCollection: AngularFirestoreCollection<any>;
+  private activitiesCollection: AngularFirestoreCollection<Activity>;
 
   constructor(private db: AngularFirestore, private afAuth: AuthService) {}
 
-  public getActivities(): Observable<any> {
+  public getActivities(): Observable<Activity[]> {
     return this.afAuth.getUserId().pipe(
-      map(uid => {
+      switchMap(uid => {
         this.activitiesCollection = this.db
           .collection('users')
           .doc(uid)
@@ -35,33 +34,12 @@ export class FirestoreDatabaseService {
     return this.db.collection<Category>('categories').valueChanges();
   }
 
-  public getCategoriesId(): Observable<void> {
-    return this.db
-      .collection<Category>('categories')
-      .get()
-      .pipe(
-        map(doc => {
-          return doc.forEach(cat => console.log(cat.id));
-        }),
-      );
-  }
-
-  // public addSingleActivity({ name, repeats, date }) {
-  //   let uid;
-  //   this.afAuth.getUserId().subscribe(id => (uid = id));
-  //   this.db
-  //     .collection('users')
-  //     .doc(uid)
-  //     .collection('activities')
-  //     .add({ name, repeats, date });
-  //   this.db
-  //     .collection('users')
-  //     .doc(uid)
-  //     .set({ isAdmin: false });
-  //   this.activities$ = this.activitiesCollection.valueChanges();
-  // }
-
-  public addSingleActivity({ name, repeats, date, categoryId }) {
+  public addSingleActivity({
+    name,
+    repeats,
+    date,
+    categoryId,
+  }): Observable<any> {
     return this.afAuth.getUserId().pipe(
       tap(uid => {
         this.db

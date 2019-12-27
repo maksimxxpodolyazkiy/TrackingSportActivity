@@ -9,6 +9,7 @@ import {
 import { SignUpComponent } from './components/auth/components/sign-up/sign-up.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { NotAdminGuard } from './shared/guards/not-admin.guard';
 
 const redirectUnauthorizedToAuth = () => redirectUnauthorizedTo(['auth']);
 
@@ -33,7 +34,7 @@ const routes: Route[] = [
     path: 'sign-up',
     component: SignUpComponent,
   },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [NotAdminGuard] },
 
   { path: '**', redirectTo: 'main' },
 ];

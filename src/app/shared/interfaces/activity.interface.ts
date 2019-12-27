@@ -1,6 +1,6 @@
 export interface Activity {
   categoryId: string;
-  date: object;
+  date: { seconds: number; nanoseconds: number };
   name: string;
   repeats: number;
 }

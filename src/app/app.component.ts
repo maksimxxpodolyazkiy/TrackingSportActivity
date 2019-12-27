@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public onSignOut() {
+  public onSignOut(): void {
     this.auth.onSignOut();
     this.router.navigate(['/auth']);
   }
